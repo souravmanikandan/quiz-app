@@ -4,9 +4,9 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/quizz-app/",
   plugins: [
     react(),
     tailwindcss()
   ],
+  base: "/quizz-app/"
 })
