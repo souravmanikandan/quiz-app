@@ -29,7 +29,7 @@ function App() {
 
   return (
     <>
-      <h1 className="bg-amber-900">Hello World!</h1>
+      <div className="bg-[#A76AE4] h-[50dvh]"></div>
     </>
   );
 }
