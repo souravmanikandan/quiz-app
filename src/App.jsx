@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [data, setData] = useState({})
   const url =
     "https://quizmania-api.p.rapidapi.com/trivia-filtered?category=geography&difficulty=easy";
   const options = {
@@ -19,6 +20,7 @@ function App() {
         
         const result = await response.json(); // Use .json() for structured data
         console.log(result);
+        setData(result)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -27,9 +29,31 @@ function App() {
     fetchData();
   }, []); // Empty dependency array ensures it runs only once
 
+  const category = data?.requestedFilters?.category || "Loading..."
+  const question = data?.question?.question
+  const option = data?.question?.answers
+
+  const answerOptions = option?.map(item => {
+    return (<li key={item}>
+      <input type="radio" id={item} name="contact" value={item} />
+      <label htmlFor={item}>{item}</label>
+    </li>)
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    alert("hi")
+  }
+
+
   return (
     <>
-      <div className="bg-[#A76AE4] h-[50dvh]"></div>
+      <div>
+        <h1>{category}</h1>
+        <p>{question}</p>
+        <ul>{answerOptions}</ul>
+        <button onClick={handleSubmit}>Submit</button>
+      </div>
     </>
   );
 }
