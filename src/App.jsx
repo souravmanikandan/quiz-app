@@ -2,21 +2,20 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [data, setData] = useState({})
-  const url =
-    "https://quizmania-api.p.rapidapi.com/trivia-filtered?category=geography&difficulty=easy";
+  const url = 'https://numbersapi.p.rapidapi.com/6/21/date';
   const options = {
-    method: "GET",
+    method: 'GET',
     headers: {
-      "x-rapidapi-key": "9c6cb9526emsh7f76dba5c4e1b14p1aa4cejsn4484b6a858e2",
-      "x-rapidapi-host": "quizmania-api.p.rapidapi.com",
-    },
+      'x-rapidapi-key': '9c6cb9526emsh7f76dba5c4e1b14p1aa4cejsn4484b6a858e2',
+      'x-rapidapi-host': 'numbersapi.p.rapidapi.com'
+    }
   };
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch(url, options);
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+        console.log(response.ok)
         
         const result = await response.json(); // Use .json() for structured data
         console.log(result);
