@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Li from "./Li";
 
 function App() {
   const [data, setData] = useState([]); // Use an array to store quiz questions
@@ -41,12 +42,7 @@ function App() {
             <ul>
               {Object.entries(question.answers).map(
                 ([key, value]) =>
-                  value && (
-                    <li key={key} className="p-3 m-3 bg-amber-50 text-black">
-                      <input type="radio" id={key} name={`q${index}`} value={value} />
-                      <label htmlFor={key}>{value}</label>
-                    </li>
-                  )
+                  value && <Li key={key} value={value} index={index} />
               )}
             </ul>
           </div>
