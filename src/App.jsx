@@ -39,6 +39,7 @@ const App = () => {
       try {
         const response = await axios.request(options);
         setQuestions(response.data); // Store fetched questions
+        console.log('response', response)
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -46,6 +47,7 @@ const App = () => {
         setLoading(false);
       }
     };
+    console.log('question',questions)
 
     fetchQuestions();
   }, []);
@@ -60,14 +62,19 @@ const App = () => {
       {!loading && !error && questions.length > 0 && (
         <div>
           {questions.map((question, index) => (
-            <div key={index} style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}>
-              <h3>Q{index + 1}: {question.question}</h3>
-              {question.options && (
+            <div
+              key={index}
+              style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}
+            >
+              <h3>Q{index + 1}: {question.question.text}</h3> {/* Fix applied here */}
+              {question.options && Array.isArray(question.options) ? (
                 <ul>
                   {question.options.map((option, i) => (
                     <li key={i}>{option}</li>
                   ))}
                 </ul>
+              ) : (
+                <p>No options available</p>
               )}
             </div>
           ))}
