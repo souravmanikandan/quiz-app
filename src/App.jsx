@@ -1,60 +1,80 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-function App() {
-  const [data, setData] = useState([]); // Use an array to store quiz questions
-  const url = "https://quizapi.io/api/v1/questions?limit=5"; // Fetch 5 questions
-  const API_KEY = "20bmmOtrSfLdEmBn457DxaTbyT2uxC5Z6OirswaD";
+const App = () => {
+  const [questions, setQuestions] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchQuestions = async () => {
+      const options = {
+        method: "GET",
+        url: "https://python-quiz-questions.p.rapidapi.com/v1/python_questions",
+        params: {
+          count: "3",
+          difficulty_easy: "true",
+          difficulty_medium: "true",
+          difficulty_hard: "true",
+          type_multiple_choice: "true",
+          type_snippets: "true",
+          type_text_input: "true",
+          topic_python_basics: "true",
+          topic_data_types_and_operations: "true",
+          topic_data_structures: "true",
+          topic_control_flow: "true",
+          topic_functions: "true",
+          topic_modules_and_packages: "true",
+          topic_file_handling: "true",
+          topic_object_oriented_programming: "true",
+          topic_exception_handling: "true",
+          topic_advanced_topics: "true",
+        },
+        headers: {
+          'x-rapidapi-key': '9c6cb9526emsh7f76dba5c4e1b14p1aa4cejsn4484b6a858e2',
+          'x-rapidapi-host': 'python-quiz-questions.p.rapidapi.com'
+        },
+      };
+
       try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "X-Api-Key": API_KEY, // Include API key in headers
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) throw new Error("Failed to fetch data");
-
-        const result = await response.json();
-        console.log("result", result);
-        setData(result); // Store questions in state
+        const response = await axios.request(options);
+        setQuestions(response.data); // Store fetched questions
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
+        setError("Failed to load questions. Try again later.");
+        setLoading(false);
       }
     };
 
-    fetchData();
+    fetchQuestions();
   }, []);
 
   return (
-    <div className="p-3">
-      <h1 className="text-green-600 text-4xl mb-6">Quiz Questions</h1>
-      {data.length === 0 ? (
-        <p>Loading...</p>
-      ) : (
-        data.map((question, index) => (
-          <div key={index}>
-            <h3 className="text-2xl">{question.question}</h3>
-            <ul>
-              {Object.entries(question.answers).map(
-                ([key, value]) =>
-                  value && (
-                    <li key={key} className="p-3 m-3 bg-amber-50 text-black">
-                      <input type="radio" id={key} name={`q${index}`} value={value} />
-                      <label htmlFor={key}>{value}</label>
-                    </li>
-                  )
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h1>Python Quiz</h1>
+
+      {loading && <p>Loading questions...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      {!loading && !error && questions.length > 0 && (
+        <div>
+          {questions.map((question, index) => (
+            <div key={index} style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}>
+              <h3>Q{index + 1}: {question.question}</h3>
+              {question.options && (
+                <ul>
+                  {question.options.map((option, i) => (
+                    <li key={i}>{option}</li>
+                  ))}
+                </ul>
               )}
-            </ul>
-          </div>
-        ))
+            </div>
+          ))}
+        </div>
       )}
-      <button className="p-3 bg-cyan-500 w-full rounded-4xl">Submit</button>
     </div>
   );
-}
+};
 
 export default App;
