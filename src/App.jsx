@@ -31,18 +31,18 @@ function App() {
 
   return (
     <div className="p-3">
-      <h1>Quiz Questions</h1>
+      <h1 className="text-green-600 text-4xl mb-6">Quiz Questions</h1>
       {data.length === 0 ? (
         <p>Loading...</p>
       ) : (
         data.map((question, index) => (
           <div key={index}>
-            <h3>{question.question}</h3>
+            <h3 className="text-2xl">{question.question}</h3>
             <ul>
               {Object.entries(question.answers).map(
                 ([key, value]) =>
                   value && (
-                    <li key={key}>
+                    <li key={key} className="p-3 m-3 bg-amber-50 text-black">
                       <input type="radio" id={key} name={`q${index}`} value={value} />
                       <label htmlFor={key}>{value}</label>
                     </li>
@@ -52,6 +52,7 @@ function App() {
           </div>
         ))
       )}
+      <button className="p-3 bg-cyan-500 w-full rounded-4xl">Submit</button>
     </div>
   );
 }
