@@ -9,4 +9,4 @@ const Li = ({ key, value, index }) => {
   );
 };
 
-export default Li
+export default Li;
