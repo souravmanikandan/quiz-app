@@ -31,14 +31,14 @@ function App() {
   }, []);
 
   return (
-    <div className="p-3">
+    <div className="p-3 max-w-dvw">
       <h1 className="text-green-600 text-4xl mb-6">Quiz Questions</h1>
       {data.length === 0 ? (
         <p>Loading...</p>
       ) : (
         data.map((question, index) => (
           <div key={index}>
-            <h3 className="text-2xl">{question.question}</h3>
+            <h3 className="text-2xl">{index}. {question.question}</h3>
             <ul>
               {Object.entries(question.answers).map(
                 ([key, value]) =>
@@ -48,7 +48,17 @@ function App() {
           </div>
         ))
       )}
-      <button className="p-3 bg-cyan-500 w-full rounded-4xl">Submit</button>
+      {/* Open the modal using document.getElementById('ID').showModal() method */}
+<button className="btn" onClick={()=>document.getElementById('my_modal_2').showModal()}>open modal</button>
+<dialog id="my_modal_2" className="modal">
+  <div className="modal-box">
+    <h3 className="font-bold text-lg">Hello!</h3>
+    <p className="py-4">Press ESC key or click outside to close</p>
+  </div>
+  <form method="dialog" className="modal-backdrop">
+    <button>close</button>
+  </form>
+</dialog>
     </div>
   );
 }
